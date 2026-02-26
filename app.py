@@ -10,14 +10,24 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # --- Firebase Initialization ---
-# Assuming ADC or a service account key is available down the line. 
-# For now, we will use the local service account if it exists.
 if not firebase_admin._apps:
     try:
-        cred = credentials.Certificate('qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json')
+        # Check if we are running in Streamlit Cloud (which has st.secrets)
+        if "firebase" in st.secrets:
+            # Streamlit secrets are stored as a AttrDict, we convert to a normal dict.
+            cred_dict = dict(st.secrets["firebase"])
+            # Format the private key properly by replacing escaped newlines
+            if "private_key" in cred_dict:
+                cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
+            cred = credentials.Certificate(cred_dict)
+        else:
+            # Local fallback for your machine
+            cred = credentials.Certificate('qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json')
+            
         firebase_admin.initialize_app(cred)
-    except FileNotFoundError:
-        firebase_admin.initialize_app() # Use ADC when deployed
+    except Exception as e:
+        # Final fallback in a serverless environment like Cloud Run that implicitly uses ADC
+        firebase_admin.initialize_app()
 
 db = firestore.client()
 
