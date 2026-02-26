@@ -12,22 +12,24 @@ from firebase_admin import credentials, firestore
 # --- Firebase Initialization ---
 if not firebase_admin._apps:
     try:
-        # Check if we are running in Streamlit Cloud (which has st.secrets)
         if "firebase" in st.secrets:
-            # Streamlit secrets are stored as a AttrDict, we convert to a normal dict.
             cred_dict = dict(st.secrets["firebase"])
-            # Format the private key properly by replacing escaped newlines
             if "private_key" in cred_dict:
                 cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
             cred = credentials.Certificate(cred_dict)
+            firebase_admin.initialize_app(cred)
         else:
-            # Local fallback for your machine
-            cred = credentials.Certificate('qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json')
-            
-        firebase_admin.initialize_app(cred)
+            # Local fallback
+            if os.path.exists('qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json'):
+                cred = credentials.Certificate('qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json')
+                firebase_admin.initialize_app(cred)
+            else:
+                # We are likely deployed to Streamlit but the secrets weren't set correctly!
+                st.error("⚠️ Streamlit Secrets are missing! Please add the [firebase] block to your App's Advanced Settings > Secrets.")
+                st.stop()
     except Exception as e:
-        # Final fallback in a serverless environment like Cloud Run that implicitly uses ADC
-        firebase_admin.initialize_app()
+        st.error(f"⚠️ Firebase Initialization Error: {e}")
+        st.stop()
 
 db = firestore.client()
 
