@@ -23,7 +23,6 @@ def init_firestore():
             if "private_key" in cred_dict:
                 cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
             
-            import os
             if 'project_id' in cred_dict:
                 os.environ['GOOGLE_CLOUD_PROJECT'] = cred_dict['project_id']
                 
