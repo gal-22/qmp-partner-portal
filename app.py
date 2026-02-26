@@ -10,14 +10,19 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # --- Firebase Initialization ---
-if not firebase_admin._apps:
+@st.cache_resource
+def init_firestore():
     try:
+        # Clear any existing apps to prevent broken cached states
+        if firebase_admin._apps:
+            for app_name in list(firebase_admin._apps.keys()):
+                firebase_admin.delete_app(firebase_admin.get_app(app_name))
+                
         if "firebase" in st.secrets:
             cred_dict = dict(st.secrets["firebase"])
             if "private_key" in cred_dict:
                 cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
             
-            # Explicitly set the environment variable which Firestore sometimes strictly requires
             import os
             if 'project_id' in cred_dict:
                 os.environ['GOOGLE_CLOUD_PROJECT'] = cred_dict['project_id']
@@ -32,14 +37,14 @@ if not firebase_admin._apps:
                 cred = credentials.Certificate('qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json')
                 firebase_admin.initialize_app(cred)
             else:
-                # We are likely deployed to Streamlit but the secrets weren't set correctly!
                 st.error("⚠️ Streamlit Secrets are missing! Please add the [firebase] block to your App's Advanced Settings > Secrets.")
                 st.stop()
+        return firestore.client()
     except Exception as e:
         st.error(f"⚠️ Firebase Initialization Error: {e}")
         st.stop()
 
-db = firestore.client()
+db = init_firestore()
 
 # --- Data Loading and Processing ---
 
@@ -54,7 +59,7 @@ def load_data(report_name):
     df = pd.read_csv(io.StringIO(csv_string))
     
     # Clean 'Supplier Earnings($)' column
-    df['Earnings'] = df['Supplier Earnings($)'].replace('[\$,]', '', regex=True)
+    df['Earnings'] = df['Supplier Earnings($)'].replace(r'[\$,]', '', regex=True)
     df['Earnings'] = pd.to_numeric(df['Earnings'], errors='coerce').fillna(0)
 
     # Clean 'Clicks' column
