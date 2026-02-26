@@ -1,0 +1,93 @@
+[
+  {
+    "Partner": "Gainbridge",
+    "Product": "Savings",
+    "DailyCap": 0.0,
+    "Notes": "client pulled from Savings listings",
+    "MonthlyCap": 0.0
+  },
+  {
+    "Partner": "Betterment",
+    "Product": "Savings",
+    "DailyCap": 280.0,
+    "Notes": "possible incremental if we hit CPI of $350",
+    "MonthlyCap": 8400.0
+  },
+  {
+    "Partner": "OpenBank",
+    "Product": "Savings",
+    "DailyCap": 0.0,
+    "Notes": "client paused",
+    "MonthlyCap": 0.0
+  },
+  {
+    "Partner": "CashApp",
+    "Product": "Savings",
+    "DailyCap": 112.0,
+    "Notes": "client pull back",
+    "MonthlyCap": 3360.0
+  },
+  {
+    "Partner": "Western Alliance",
+    "Product": "Savings",
+    "DailyCap": 140.0,
+    "Notes": "possible incremental if we hit $15 CP1k target",
+    "MonthlyCap": 4200.0
+  },
+  {
+    "Partner": "SoFi",
+    "Product": "Savings",
+    "DailyCap": null,
+    "Notes": "uncapped if we hit targets",
+    "MonthlyCap": null
+  },
+  {
+    "Partner": "Synchrony",
+    "Product": "Savings",
+    "DailyCap": 280.0,
+    "Notes": "possible incremental if we hit CPI of $350",
+    "MonthlyCap": 8400.0
+  },
+  {
+    "Partner": "Axos",
+    "Product": "Savings",
+    "DailyCap": 0.0,
+    "Notes": "back on CPA",
+    "MonthlyCap": 0.0
+  },
+  {
+    "Partner": "Capital One",
+    "Product": "Savings",
+    "DailyCap": 560.0,
+    "Notes": "possible incremental if we hit CPI of $350",
+    "MonthlyCap": 16800.0
+  },
+  {
+    "Partner": "Etrade",
+    "Product": "Savings",
+    "DailyCap": 140.0,
+    "Notes": "possible incremental if we hit CPI of $350",
+    "MonthlyCap": 4200.0
+  },
+  {
+    "Partner": "Jenius Bank",
+    "Product": "Savings",
+    "DailyCap": 140.0,
+    "Notes": "possible incremental if we hit CPI of $350",
+    "MonthlyCap": 4200.0
+  },
+  {
+    "Partner": "Marcus Savings",
+    "Product": "Savings",
+    "DailyCap": 140.0,
+    "Notes": "mid month launch",
+    "MonthlyCap": 4200.0
+  },
+  {
+    "Partner": "Hola",
+    "Product": "Savings",
+    "DailyCap": 100.0,
+    "Notes": null,
+    "MonthlyCap": 3000.0
+  }
+]

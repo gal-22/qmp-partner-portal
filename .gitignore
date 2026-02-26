@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Firebase Service Account Credentials (CRITICAL TO KEEP PRIVATE)
+qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json
+*-firebase-adminsdk-*.json
+
+# Data folders (Since they are now stored in Firestore)
+ad_spend/
+caps/
+reports/
+*.csv
+config.json
+
+# IDEs and OS specific files
+.DS_Store
+.vscode/
+.idea/
