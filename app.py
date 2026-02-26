@@ -16,8 +16,16 @@ if not firebase_admin._apps:
             cred_dict = dict(st.secrets["firebase"])
             if "private_key" in cred_dict:
                 cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
+            
+            # Explicitly set the environment variable which Firestore sometimes strictly requires
+            import os
+            if 'project_id' in cred_dict:
+                os.environ['GOOGLE_CLOUD_PROJECT'] = cred_dict['project_id']
+                
             cred = credentials.Certificate(cred_dict)
-            firebase_admin.initialize_app(cred)
+            firebase_admin.initialize_app(cred, {
+                'projectId': cred_dict.get('project_id')
+            })
         else:
             # Local fallback
             if os.path.exists('qmp-partner-portal-2026-firebase-adminsdk-fbsvc-c45407ee13.json'):
